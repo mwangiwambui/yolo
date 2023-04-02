@@ -1,4 +1,4 @@
-version: '1'
+version: '3.7'
 
 services:
 #MONGO DB microservice
@@ -13,7 +13,7 @@ services:
   client:
     container_name: client_container
     build: .
-    image: weshallfill/random:1.0.1
+    image: yomzziee/client:1
     working_dir: /usr/src/app/client
     command: npm start
     ports:
@@ -24,7 +24,7 @@ services:
   backend:
     container_name: backend_container
     build: .
-    image: weshallfill/random:1.0.1
+    image: yomzieee/backend:1
     working_dir: /isr/src/app/backend
     command: npm start
     ports:
