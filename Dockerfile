@@ -1,7 +1,7 @@
 FROM node:alpine
 LABEL maintainer="Naomi Mwangi <wambui54mwangi@gmail.com"
 
-WORKDIR /usr/src/app/client
+WORKDIR /app/client
 
 COPY ./client/package*.json ./
 
@@ -9,7 +9,7 @@ COPY ./client .
 
 RUN npm install
 
-WORKDIR /usr/src/app/backend
+WORKDIR /app/backend
 
 COPY ./backend/package*.json ./
 

@@ -8,23 +8,27 @@ services:
     restart: always
     volumes:
       - mongo_db:/data/db
+    networks:
+      - yolo-app
 
 #Client microservice
   client:
     container_name: client_container
     build: .
-    image: yomzziee/client:1
+    image: yomzziee/yolo:client-1
     working_dir: /usr/src/app/client
     command: npm start
     ports:
       - 3000:3000
     stdin_open: true
+    networks:
+      - yolo-app
 
 #Backend microservice
   backend:
     container_name: backend_container
     build: .
-    image: yomzieee/backend:1
+    image: yomzieee/yolo:backend-1
     working_dir: /isr/src/app/backend
     command: npm start
     ports:
@@ -33,6 +37,12 @@ services:
       - MONGODB_URI=mongodb://mongo_db/27017
     depends_on:
       - mongo_db
+    networks:
+      - yolo-app
 
   volumes:
-    mongo_db: {}
+    mongo_db:
+  
+  networks:
+    yolo-app:
+      driver: bridhe
