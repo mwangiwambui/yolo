@@ -10,7 +10,7 @@ services:
     ports:
       - '27027:27027'
     volumes:
-      - ./mongo_db:/data/db
+      - mongo_db:/data/db
     networks:
       - yolo-app
 
