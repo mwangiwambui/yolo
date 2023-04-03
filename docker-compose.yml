@@ -6,8 +6,11 @@ services:
     container_name: db_container
     image: mongo:latest
     restart: always
+    command: mongod --port 27017
+    ports:
+      - '27027:27027'
     volumes:
-      - mongo_db:/data/db
+      - ./mongo_db:/data/db
     networks:
       - yolo-app
 
@@ -33,16 +36,16 @@ services:
     command: npm start
     ports:
       - 5000:5000
-    environment:
-      - MONGODB_URI=mongodb://mongo_db/27017
+    links:
+      - mongo_db
     depends_on:
       - mongo_db
     networks:
       - yolo-app
 
-  volumes:
-    mongo_db:
+volumes:
+  mongo_db:
   
-  networks:
-    yolo-app:
-      driver: bridge
+networks:
+  yolo-app:
+    driver: bridge
