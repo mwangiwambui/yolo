@@ -15,8 +15,8 @@ services:
   client:
     container_name: client_container
     build: .
-    image: yomzziee/yolo:client-1
-    working_dir: /usr/src/app/client
+    image: yomziee/yolo-client:1.0
+    working_dir: /app/client
     command: npm start
     ports:
       - 3000:3000
@@ -28,8 +28,8 @@ services:
   backend:
     container_name: backend_container
     build: .
-    image: yomzieee/yolo:backend-1
-    working_dir: /isr/src/app/backend
+    image: yomziee/yolo-backend:1.0
+    working_dir: /app/backend
     command: npm start
     ports:
       - 5000:5000
