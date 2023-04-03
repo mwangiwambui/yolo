@@ -9,6 +9,8 @@ COPY ./client .
 
 RUN npm install
 
+EXPOSE 3000
+
 WORKDIR /app/backend
 
 COPY ./backend/package*.json ./
@@ -16,4 +18,6 @@ COPY ./backend/package*.json ./
 COPY ./backend .
 
 RUN npm install
+
+EXPOSE 5000
 
