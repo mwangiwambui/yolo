@@ -1,51 +1,53 @@
 version: '3.7'
 
 services:
-#MONGO DB microservice
-  mongo_db:
-    container_name: db_container
-    image: mongo:latest
-    restart: always
-    command: mongod --port 27017
-    ports:
-      - '27027:27027'
-    volumes:
-      - mongo_db:/data/db
-    networks:
-      - yolo-app
-
 #Client microservice
   client:
-    container_name: client_container
-    build: .
-    image: yomziee/yolo-client:1.0
-    working_dir: /app/client
-    command: npm start
-    ports:
-      - 3000:3000
-    stdin_open: true
-    networks:
-      - yolo-app
+    frontend:
+      build:
+        context: client
+        dockerfile: Dockerfile
+      ports:
+        - 3000:3000
+      stdin_open: true
+      depends_on: 
+        - backend
+      networks:
+        yolo-app:
+          ipv4_address: 172.0.14.2
 
 #Backend microservice
   backend:
     container_name: backend_container
-    build: .
-    image: yomziee/yolo-backend:1.0
-    working_dir: /app/backend
-    command: npm start
+    build:
+      context: backemd
+      dockerfile: Dockerfile
     ports:
       - 5000:5000
-    links:
-      - mongo_db
+    environment:
+      MONGODB_URI: mongodb://yolo:yolo@172.0.14.4:27017
     depends_on:
-      - mongo_db
+      - database
     networks:
-      - yolo-app
+        yolo-app:
+          ipv4_address: 172.0.14.3
+
+  database:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: yolo
+      MONGO_INITDB_ROOT_PASSWORD: yolo
+    ports: 27017:27014
+    networks:
+        yolo-app:
+          ipv4_address: 172.0.14.4
 
 volumes:
   mongo_db:
   
 networks:
   yolo-app:
-    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.0.14.0/16
