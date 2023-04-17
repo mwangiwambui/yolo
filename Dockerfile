@@ -11,6 +11,8 @@ RUN npm install
 
 EXPOSE 3000
 
+CMD ["npm", "start"]
+
 WORKDIR /app/backend
 
 COPY ./backend/package*.json ./
@@ -21,3 +23,4 @@ RUN npm install
 
 EXPOSE 5000
 
+CMD ["npm", "start"]
