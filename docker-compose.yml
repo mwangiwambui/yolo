@@ -4,6 +4,7 @@ services:
 #Client microservice
   client:
     frontend:
+      image: yolo-client:1.0.0
       build:
         context: client
         dockerfile: Dockerfile
@@ -18,7 +19,7 @@ services:
 
 #Backend microservice
   backend:
-    container_name: backend_container
+    image: yolo-client:1.0.0
     build:
       context: backemd
       dockerfile: Dockerfile
