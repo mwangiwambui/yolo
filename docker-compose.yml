@@ -43,9 +43,6 @@ services:
         yolo-app:
           ipv4_address: 172.0.14.4
 
-volumes:
-  mongo_db:
-  
 networks:
   yolo-app:
     ipam:
