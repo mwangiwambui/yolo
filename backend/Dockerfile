@@ -1,13 +1,18 @@
 # Get the base node image
-FROM node:16-alpine 
+FROM node:14-alpine
 
 LABEL maintainer="Wambui Mwangi <naomi.wambui@student.moringaschool.com>"
 
-# Set the working directory to /client
-WORKDIR /backend
+RUN mkdir -p /app
+# Set the working directory to /backend
+WORKDIR /app
 
 # Copy all files to the working directory
-COPY ./ /backend
+COPY package*.json /app/
 
 # Install dependencies
 RUN npm install
+
+COPY . /app/
+
+CMD ["npm","start"]

@@ -1,51 +1,45 @@
-version: '3.7'
+version: '3'
 
 services:
 #Client microservice
-  client:
-    frontend:
-      image: yolo-client:1.0.0
-      build:
-        context: client
-        dockerfile: Dockerfile
-      ports:
-        - 3000:3000
-      stdin_open: true
-      depends_on: 
-        - backend
-      networks:
-        yolo-app:
-          ipv4_address: 172.0.14.2
+  frontend:
+    image: yomziee/yolo-client:1.0.0
+    ports:
+      - 3000:3000
+    stdin_open: true
+    depends_on: 
+      - backend
+    networks:
+      yolo-network:
+        ipv4_address: 172.2.0.2
 
 #Backend microservice
   backend:
-    image: yolo-client:1.0.0
-    build:
-      context: backemd
-      dockerfile: Dockerfile
+    image: yomziee/yolo-backend:latest
     ports:
       - 5000:5000
     environment:
-      MONGODB_URI: mongodb://yolo:yolo@172.0.14.4:27017
+      MONGODB_URI: 'mongodb://yolo2:yolo2@172.2.0.5:27017'
     depends_on:
       - database
     networks:
-        yolo-app:
-          ipv4_address: 172.0.14.3
+        yolo-network:
+          ipv4_address: 172.2.0.4
 
   database:
-    image: mongo
+    image: mongo:latest
     environment:
-      MONGO_INITDB_ROOT_USERNAME: yolo
-      MONGO_INITDB_ROOT_PASSWORD: yolo
-    ports: 27017:27014
+      MONGO_INITDB_ROOT_USERNAME: yolo2
+      MONGO_INITDB_ROOT_PASSWORD: yolo2
+    ports: 
+      - 27017:27017
     networks:
-        yolo-app:
-          ipv4_address: 172.0.14.4
+        yolo-network:
+          ipv4_address: 172.2.0.5
 
 networks:
-  yolo-app:
+  yolo-network:
     ipam:
       driver: default
       config:
-        - subnet: 172.0.14.0/16
+        - subnet: 172.2.0.0/16
