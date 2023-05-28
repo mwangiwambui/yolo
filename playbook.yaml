@@ -1,0 +1,53 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    network: yolo-network
+
+- name: "Clone repository"
+  git:
+    repo: https://github.com/mwangiwambui/yolo
+    dest: /app/yolo
+    clone: yes
+    update: yes
+
+  roles:
+    - roles/docker
+    - roles/client
+    - roles/backend
+
+  tasks:
+  - name: "Setup Mongo"
+    docker_container:
+      name: mongodb
+      image: mongo:latest
+      volumes:
+        - yolo_volume:/data/db
+      networks:
+        - name: "{{ network }}"
+
+  - name: "Run backend"
+    docker_container:
+      name: backend
+      image: "{{ backend_image }}"
+      state: started
+      command: npm start
+      env:
+        MONGODB_URI: mongodb://mongodb:27017/yolomy
+      ports:
+        - "8000-8000"
+      tty: true
+      networks:
+        - name: "{{ network }}"
+
+  - name: "Run client"
+    docker_container:
+      name: client
+      image: "{{ client_image }}"
+      state: started
+      command: npm start
+      ports:
+        - "3000-3000"
+      tty: true
+      networks:
+        - name: "{{ network }}"
