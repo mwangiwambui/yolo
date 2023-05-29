@@ -1,0 +1,3 @@
+---
+# vars file for client
+client_image: yomziee/yolo-client:1.0.0
