@@ -14,8 +14,8 @@ Vagrant.configure("2") do |config|
   # boxes at https://vagrantcloud.com/search.
   config.vm.box = "geerlingguy/ubuntu2004"
 
-  config.vm.network "forwarded_port", guest: 3000, host: 3000, protocol: "tcp"
-  config.vm.network "forwarded_port", guest: 5000, host: 5000, protocol: "tcp"
+  config.vm.network "forwarded_port", guest: 3004, host: 3004, protocol: "tcp"
+  config.vm.network "forwarded_port", guest: 5005, host: 5005, protocol: "tcp"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
